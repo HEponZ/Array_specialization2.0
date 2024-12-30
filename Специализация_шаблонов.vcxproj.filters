@@ -31,5 +31,11 @@
     <None Include="Functions.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
+    <None Include="char_specialization.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
+    <None Include="string_specialization.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
   </ItemGroup>
 </Project>

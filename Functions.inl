@@ -1,15 +1,4 @@
-﻿template<class T> Array_specialization<T>::Array_specialization(const initializer_list<T> list)
-	:Array_specialization(list.size())
-{
-	int i = 0;
-	for (auto& element : list)
-	{
-		mas[i] = element;
-		i++;
-	}
-}
-
-template<class T> Array_specialization<T>::Array_specialization(const T* mas_S, size_t size_S)noexcept  : mas{ new T[size_S] }, size{ size_S }
+﻿template<class T> Array_specialization<T>::Array_specialization(const T* mas_S, size_t size_S)noexcept  : mas{ new T[size_S] }, size{ size_S }
 {
 	if (mas_S)
 	{
@@ -24,11 +13,18 @@ template<class T> Array_specialization<T>::Array_specialization(Array_specializa
 	arr.mas = nullptr;
 	arr.size = 0;
 }
-
-
-template<class T> T Array_specialization<T>::Min()
+template<class T> Array_specialization<T>::Array_specialization(const Array_specialization& arr) noexcept : mas{ new T[arr.size] }, size{ arr.size }
 {
-	T min = INT_MAX;
+	for (size_t i{ 0 }; i < size; i++)
+	{
+		mas[i] = arr.mas[i];
+	}
+}
+
+template<class T> T Array_specialization<T>::Min()const noexcept
+{
+	T min = mas[0];
+	int i = 0;
 
 	for (size_t i{ 0 }; i < size; i++)
 	{
@@ -39,9 +35,9 @@ template<class T> T Array_specialization<T>::Min()
 	}
 	return min;
 }
-template<class T> T Array_specialization<T>::Max()
+template<class T> T Array_specialization<T>::Max()const noexcept
 {
-	T max = INT_MIN;
+	T max = mas[0];
 
 	for (size_t i{ 0 }; i < size; i++)
 	{
@@ -54,7 +50,7 @@ template<class T> T Array_specialization<T>::Max()
 }
 
 
-template<class T> bool Array_specialization<T>::Find(T element)
+template<class T> bool Array_specialization<T>::Find(T element)const noexcept
 {
 	for (int i{ 0 }; i < size; i++)
 	{
@@ -65,7 +61,7 @@ template<class T> bool Array_specialization<T>::Find(T element)
 	}
 	return false;
 }
-template<class T> void Array_specialization<T>::Add(T element)
+template<class T> void Array_specialization<T>::Add(T element)noexcept
 {
 	T* new_mas = new T[++size];
 
@@ -78,7 +74,7 @@ template<class T> void Array_specialization<T>::Add(T element)
 	delete[] mas;
 	mas = new_mas;
 }
-template<class T> void Array_specialization<T>::Delete()
+template<class T> void Array_specialization<T>::Delete()noexcept
 {
 	T* new_mas = new T[size--];
 
@@ -90,14 +86,21 @@ template<class T> void Array_specialization<T>::Delete()
 	delete[] mas;
 	mas = new_mas;
 }
-template<class T> void Array_specialization<T>::Copy(Array_specialization<T>& arr)
+template<class T> void Array_specialization<T>::Copy(Array_specialization<T>& arr)noexcept
 {
-	mas = arr.mas;
+	delete[] mas;
+
 	size = arr.size;
+	mas = new T[size];
+
+	for (size_t i{ 0 }; i < size; i++)
+	{
+		mas[i] = arr.mas[i];
+	}
 }
 
 
-template<class T> const Array_specialization<T>& Array_specialization<T>:: operator=(const Array_specialization<T>& arr)
+template<class T> Array_specialization<T>& Array_specialization<T>:: operator=(const Array_specialization<T>& arr)noexcept
 {
 	if (&arr != this)
 	{
@@ -112,15 +115,13 @@ template<class T> const Array_specialization<T>& Array_specialization<T>:: opera
 	}
 	return *this;
 }
-template<class T> Array_specialization<T>&& Array_specialization<T>:: operator=(Array_specialization<T>&& arr)
+template<class T> Array_specialization<T>&& Array_specialization<T>:: operator=(Array_specialization<T>&& arr)noexcept
 {
 	if (this != arr)
 	{
 		delete[] mas;
 
 		size = arr.size;
-
-		mas = new T[size];
 
 		mas = arr.mas;
 
@@ -133,6 +134,15 @@ template<class T> Array_specialization<T>&& Array_specialization<T>:: operator=(
 	return *this;
 }
 template<class T> T Array_specialization<T>::operator[] (int index) const
+{
+	if (index < 0 || index > size)
+	{
+		//Выброс исключения при выходе за рамки индексов
+		throw "\nОшибка.Такого индекса не существует!\n";
+	}
+	return mas[index];
+}
+template<class T> T Array_specialization<T>::operator[] (int index)
 {
 	if (index < 0 || index > size)
 	{

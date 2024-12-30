@@ -1,6 +1,8 @@
 #include "Array_specialization.h"
 #include "Functions.inl"
 #include "Functions.cpp"
+#include "char_specialization.inl"
+#include "string_specialization.inl"
 
 int main()
 {
@@ -53,10 +55,10 @@ int main()
 				cout << "Копирование успешно\n";
 				break;
 			case MIN:
-				arr.Min();
+				cout << "Минимальное значение: " << arr.Min() << "\n";
 				break;
 			case MAX:
-				arr.Max();
+				cout << "Максимальное значение: " << arr.Max() << "\n";
 				break;
 			case FIND_INDEX:
 				cout << "Введите индекс для поиска: ";

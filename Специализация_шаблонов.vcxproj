@@ -134,7 +134,9 @@
     <ClInclude Include="Array_specialization.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="char_specialization.inl" />
     <None Include="Functions.inl" />
+    <None Include="string_specialization.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

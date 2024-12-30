@@ -10,7 +10,7 @@ template<typename T> ostream& operator<< (ostream& my_cout, const Array_speciali
 
 	return my_cout;
 }
-template<typename T> istream& operator>> (istream& my_cin, Array_specialization<T>& arr) noexcept 
+template<typename T> istream& operator>> (istream& my_cin, Array_specialization<T>& arr)noexcept 
 {
 	for(size_t i{0};i<size;i++)
 	{
